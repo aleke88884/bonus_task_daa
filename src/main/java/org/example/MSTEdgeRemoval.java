@@ -86,20 +86,43 @@ public class MSTEdgeRemoval {
 
     // Создание примерного графа для демонстрации
     private static Graph createSampleGraph() {
-        Graph graph = new Graph(6); // 6 вершин (0-5)
+        int numVertices = 6; // можно поменять на любое количество
+        int numEdges = 10;   // число рёбер, желательно >= numVertices - 1
+        Random rand = new Random();
 
-        // Добавляем рёбра (вершина1, вершина2, вес)
-        graph.addEdge(0, 1, 4);
-        graph.addEdge(0, 2, 3);
-        graph.addEdge(1, 2, 1);
-        graph.addEdge(1, 3, 2);
-        graph.addEdge(2, 3, 4);
-        graph.addEdge(3, 4, 2);
-        graph.addEdge(3, 5, 6);
-        graph.addEdge(4, 5, 3);
-        graph.addEdge(2, 4, 5);
+        Graph graph = new Graph(numVertices);
 
-        System.out.println("Graph created with 6 vertices and 9 edges");
+        // Сначала делаем граф связным — соединяем цепочкой
+        for (int i = 0; i < numVertices - 1; i++) {
+            int weight = rand.nextInt(9) + 1; // вес от 1 до 10
+            graph.addEdge(i, i + 1, weight);
+        }
+
+        // Добавляем оставшиеся рёбра случайно
+        int additionalEdges = numEdges - (numVertices - 1);
+        Set<String> existingEdges = new HashSet<>();
+        for (int i = 0; i < numVertices - 1; i++) {
+            existingEdges.add(i + "-" + (i + 1));
+            existingEdges.add((i + 1) + "-" + i);
+        }
+
+        for (int i = 0; i < additionalEdges; i++) {
+            int u, v;
+            do {
+                u = rand.nextInt(numVertices);
+                v = rand.nextInt(numVertices);
+            } while (u == v || existingEdges.contains(u + "-" + v));
+
+            int weight = rand.nextInt(9) + 1; // вес от 1 до 10
+            graph.addEdge(u, v, weight);
+            existingEdges.add(u + "-" + v);
+            existingEdges.add(v + "-" + u);
+        }
+
+        System.out.println("Random graph created with " + numVertices + " vertices and " + numEdges + " edges:");
+        for (Graph.Edge e : graph.getEdges()) {
+            System.out.println("  " + e);
+        }
         System.out.println();
 
         return graph;

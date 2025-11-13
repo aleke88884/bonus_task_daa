@@ -13,6 +13,14 @@ The program performs the following operations:
 5. **Find a replacement edge** – Finds the minimum-weight edge that reconnects the graph.
 6. **Display the new MST** – Shows the updated tree after reconnection.
 
+
+## How to run project
+1. After cloning you have MSTEdgeRemoval.java class where you can run the program.
+2. Also to test it you need to run TestMST.java class under the test package.
+
+
+
+
 ## Project Structure
 
 ```
